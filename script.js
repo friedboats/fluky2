@@ -1,11 +1,11 @@
 (() => {
-  const canvas = document.getElementById("wheelCanvas");
-  const ctx = canvas.getContext("2d");
-  const nameInput = document.getElementById("nameInput");
-  const addNameButton = document.getElementById("addNameButton");
-  const spinButton = document.getElementById("spinButton");
-  const nameList = document.getElementById("nameList");
-  const controls = document.getElementById("controls");
+  const canvas = document.getElementById('wheelCanvas');
+  const ctx = canvas.getContext('2d');
+  const nameInput = document.getElementById('nameInput');
+  const addNameButton = document.getElementById('addNameButton');
+  const spinButton = document.getElementById('spinButton');
+  const nameList = document.getElementById('nameList');
+  const controls = document.getElementById('controls');
 
   // Increase the canvas size to accommodate the larger wheel and ensure the arrow stays in view
   canvas.width = 600; // Adjusted width for larger wheel
@@ -23,26 +23,26 @@
   let spinning = false;
 
   const predefinedColors = [
-    "#FFBC70",
-    "#5FCFFF",
-    "#B23A3A",
-    "#D3BEEA",
-    "#35816E",
-    "#FEA379",
-    "#2B83C6",
-    "#BD8A6A",
-    "#DDE38C",
-    "#FFDF61",
-    "#5D84A2",
-    "#74B959",
-    "#E41F84",
-    "#A2C7E3",
-    "#FF9162",
-    "#3A693F",
-    "#E1ADE7",
-    "#D0BBCE",
-    "#285E86",
-    "#BDAA3E",
+    '#FFBC70',
+    '#5FCFFF',
+    '#B23A3A',
+    '#D3BEEA',
+    '#35816E',
+    '#FEA379',
+    '#2B83C6',
+    '#BD8A6A',
+    '#DDE38C',
+    '#FFDF61',
+    '#5D84A2',
+    '#74B959',
+    '#E41F84',
+    '#A2C7E3',
+    '#FF9162',
+    '#3A693F',
+    '#E1ADE7',
+    '#D0BBCE',
+    '#285E86',
+    '#BDAA3E',
   ];
 
   let assignedColors = [];
@@ -81,12 +81,12 @@
   }
 
   // Add a name to the wheel
-  addNameButton.addEventListener("click", () => {
+  addNameButton.addEventListener('click', () => {
     addNameToWheel();
   });
 
-  nameInput.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
+  nameInput.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
       event.preventDefault(); // Prevent the default action (form submission)
       addNameToWheel();
     }
@@ -101,7 +101,7 @@
       const color = getColor();
       assignedColors.push(color);
 
-      nameInput.value = ""; // Clear the input field
+      nameInput.value = ''; // Clear the input field
       updateNameList();
       drawWheel();
     }
@@ -109,18 +109,18 @@
 
   // Update the name list display
   function updateNameList() {
-    nameList.innerHTML = "";
+    nameList.innerHTML = '';
     names.forEach((name, index) => {
-      const li = document.createElement("li");
+      const li = document.createElement('li');
       li.textContent = name;
       li.style.backgroundColor = assignedColors[index];
 
-      const removeButton = document.createElement("span");
-      removeButton.textContent = "X";
-      removeButton.style.marginLeft = "10px";
-      removeButton.style.color = "white";
-      removeButton.style.cursor = "pointer";
-      removeButton.addEventListener("click", () => removeName(index));
+      const removeButton = document.createElement('span');
+      removeButton.textContent = 'X';
+      removeButton.style.marginLeft = '10px';
+      removeButton.style.color = 'white';
+      removeButton.style.cursor = 'pointer';
+      removeButton.addEventListener('click', () => removeName(index));
 
       li.appendChild(removeButton);
       nameList.appendChild(li);
@@ -143,11 +143,12 @@
       ctx.beginPath();
       ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
       ctx.setLineDash([15, 15]); // Dotted line style
-      ctx.fillStyle = "rgba(245, 71, 251, 1)";
+      ctx.fillStyle = 'rgb(222, 174, 18)';
       ctx.fill();
-      ctx.font = "70px Arial";
-      ctx.fillStyle = "white";
-      ctx.fillText("Fluky 2.0", centerX - 135, centerY + 20);
+      ctx.font = '100px Georgia';
+      ctx.fillStyle = 'white';
+      ctx.fillText('Euchre', centerX - 155, centerY - 20);
+      ctx.fillText('Night!!!', centerX - 155, centerY + 95);
       return;
     }
 
@@ -167,15 +168,15 @@
       ctx.save();
       ctx.translate(centerX, centerY);
       ctx.rotate(startAngle + anglePerName / 2);
-      ctx.textAlign = "right";
-      ctx.fillStyle = "#000";
-      ctx.font = "16px Arial";
+      ctx.textAlign = 'right';
+      ctx.fillStyle = '#000';
+      ctx.font = '16px Arial';
       //   ctx.fillText(name, radius - 10, 0);
       ctx.restore();
     });
 
     // Draw the arrow
-    ctx.fillStyle = "#000";
+    ctx.fillStyle = '#000';
     ctx.beginPath();
     ctx.moveTo(centerX, centerY - radius + 15);
     ctx.lineTo(centerX - 10, centerY - radius - 10);
@@ -185,7 +186,7 @@
   }
 
   // Spin the wheel
-  spinButton.addEventListener("click", () => {
+  spinButton.addEventListener('click', () => {
     if (!spinning && names.length > 0) {
       const randomSpinVelocity = Math.random() * 5 + 10; // Random spin velocity between 10 and 15
       spinVelocity = randomSpinVelocity; // Set the initial spin velocity
@@ -204,7 +205,7 @@
       // moveWheel
       spinButton.style.opacity = 0;
       controls.style.opacity = 0;
-      controls.style.display = "none";
+      controls.style.display = 'none';
       controls.style.flex = 0;
     } else {
       spinning = false;
@@ -227,16 +228,16 @@
 
   function animateWinnerAnnouncement(segmentIndex) {
     // Get the list items and find the winner's list item
-    const listItems = nameList.getElementsByTagName("li");
+    const listItems = nameList.getElementsByTagName('li');
     const winnerLi = listItems[segmentIndex];
 
-    const winnerNameText = winnerLi.textContent.replace("X", "").trim();
+    const winnerNameText = winnerLi.textContent.replace('X', '').trim();
 
     // Show the modal after the animation
     setTimeout(() => {
-      const modal = document.getElementById("modal");
-      modal.classList.add("animated");
-      modal.style.display = "block"; // Show the modal
+      const modal = document.getElementById('modal');
+      modal.classList.add('animated');
+      modal.style.display = 'block'; // Show the modal
       modal.style.backgroundColor = winnerLi.style.backgroundColor;
       winnerName.innerHTML = winnerNameText;
       generateConfetti();
@@ -245,36 +246,36 @@
 
   function generateConfetti() {
     const numConfetti = 100; // Number of confetti pieces
-    const confettiContainer = document.createElement("div");
-    confettiContainer.classList.add("confetti-container");
+    const confettiContainer = document.createElement('div');
+    confettiContainer.classList.add('confetti-container');
     document.body.appendChild(confettiContainer); // Append the confetti container to the body
 
     const colors = [
-      "#FFBC70",
-      "#5FCFFF",
-      "#B23A3A",
-      "#D3BEEA",
-      "#35816E",
-      "#FEA379",
-      "#2B83C6",
-      "#BD8A6A",
-      "#DDE38C",
-      "#FFDF61",
-      "#5D84A2",
-      "#74B959",
-      "#E41F84",
-      "#A2C7E3",
-      "#FF9162",
-      "#3A693F",
-      "#E1ADE7",
-      "#D0BBCE",
-      "#285E86",
-      "#BDAA3E",
+      '#FFBC70',
+      '#5FCFFF',
+      '#B23A3A',
+      '#D3BEEA',
+      '#35816E',
+      '#FEA379',
+      '#2B83C6',
+      '#BD8A6A',
+      '#DDE38C',
+      '#FFDF61',
+      '#5D84A2',
+      '#74B959',
+      '#E41F84',
+      '#A2C7E3',
+      '#FF9162',
+      '#3A693F',
+      '#E1ADE7',
+      '#D0BBCE',
+      '#285E86',
+      '#BDAA3E',
     ];
 
     for (let i = 0; i < numConfetti; i++) {
-      const confettiPiece = document.createElement("div");
-      confettiPiece.classList.add("confetti");
+      const confettiPiece = document.createElement('div');
+      confettiPiece.classList.add('confetti');
 
       // Set random color from the colors array
       const color = colors[Math.floor(Math.random() * colors.length)];
@@ -290,13 +291,13 @@
       const rotationEnd = Math.random() * 360; // Random end rotation (0-360 degrees)
 
       // Set inline CSS custom properties for delay, duration, and rotation
-      confettiPiece.style.setProperty("--delay", `${delay}s`);
-      confettiPiece.style.setProperty("--fall-duration", `${fallDuration}s`);
+      confettiPiece.style.setProperty('--delay', `${delay}s`);
+      confettiPiece.style.setProperty('--fall-duration', `${fallDuration}s`);
       confettiPiece.style.setProperty(
-        "--rotation-start",
-        `${rotationStart}deg`
+        '--rotation-start',
+        `${rotationStart}deg`,
       );
-      confettiPiece.style.setProperty("--rotation-end", `${rotationEnd}deg`);
+      confettiPiece.style.setProperty('--rotation-end', `${rotationEnd}deg`);
 
       // Append the confetti piece to the container
       confettiContainer.appendChild(confettiPiece);
@@ -305,12 +306,13 @@
 
   function loadNamesFromUrlParams() {
     const urlParams = new URLSearchParams(window.location.search);
-    const namesParam = urlParams.get("names");
+    const namesParam = urlParams.get('names');
     if (namesParam) {
-      const namesArray = namesParam.split(",").map((name) => name.trim());
+      const namesArray = namesParam.split(',').map((name) => name.trim());
       namesArray.forEach((name) => {
         if (name && !names.includes(name)) {
-          names.push(name);
+          const captializedName = name.charAt(0).toUpperCase() + name.slice(1);
+          names.push(captializedName);
           const color = getColor();
           assignedColors.push(color);
         }
@@ -321,12 +323,12 @@
   }
 
   function makeWaves() {
-    const container = document.querySelector(".wave-container");
+    const container = document.querySelector('.wave-container');
     const waveCount = 20; // Number of falling balls
 
     for (let i = 0; i < waveCount; i++) {
-      const wave = document.createElement("div");
-      wave.classList.add("wave");
+      const wave = document.createElement('div');
+      wave.classList.add('wave');
 
       // Randomize size
       const size = Math.random() * 150 + 50; // Size between 50px and 200px
