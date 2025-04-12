@@ -64,22 +64,6 @@
     }
   }
 
-  // Generate random color
-  function getRandomColor() {
-    // Generate a hue in a modern range with larger steps for better distinction
-    const hueStep = 360 / names.length; // Calculate the step to ensure colors are spread out
-    const hue =
-      (Math.random() * hueStep +
-        Math.floor(Math.random() * names.length) * hueStep) %
-      360;
-
-    // Use higher saturation (70-90%) and lightness (40-60%) for modern, vibrant look
-    const saturation = Math.floor(Math.random() * 20) + 70; // Random saturation between 70 and 90
-    const lightness = Math.floor(Math.random() * 20) + 40; // Random lightness between 40 and 60
-
-    return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
-  }
-
   // Add a name to the wheel
   addNameButton.addEventListener('click', () => {
     addNameToWheel();
