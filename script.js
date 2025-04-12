@@ -175,7 +175,19 @@
       const randomSpinVelocity = Math.random() * 5 + 10; // Random spin velocity between 10 and 15
       spinVelocity = randomSpinVelocity; // Set the initial spin velocity
       spinning = true;
-      requestAnimationFrame(spin);
+      const controlsWidth = controls.getBoundingClientRect().width;
+      controls.remove();
+      canvas.style.paddingLeft = controlsWidth + 'px';
+      spinButton.style.opacity = 0;
+
+      setTimeout(() => {
+        canvas.classList.add('slide');
+        canvas.style.paddingLeft = 0;
+      }, 0);
+
+      setTimeout(() => {
+        requestAnimationFrame(spin);
+      }, 1000);
     }
   });
 
@@ -185,12 +197,6 @@
       spinVelocity *= 0.99; // Gradual slowdown
       drawWheel();
       requestAnimationFrame(spin);
-
-      // moveWheel
-      spinButton.style.opacity = 0;
-      controls.style.opacity = 0;
-      controls.style.display = 'none';
-      controls.style.flex = 0;
     } else {
       spinning = false;
       determineWinner();
