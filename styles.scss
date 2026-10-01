@@ -54,7 +54,7 @@ body {
 
 .button-79:focus:before {
   border-width: 0.125rem;
-  content: "";
+  content: '';
   left: calc(-1 * 0.375rem);
   pointer-events: none;
   position: absolute;
@@ -74,117 +74,154 @@ body {
   display: flex;
   justify-content: center;
   height: 100vh;
+  /* Desktop: side-by-side layout */
+  flex-direction: row;
 }
+
 #controls {
   flex: 1;
-  position: relative;
+  display: flex;
+  flex-direction: column;
   padding: 4rem;
+  gap: 20px;
+  transition: all 0.5s ease;
 
   #inputContainer {
+    display: flex;
+    gap: 10px;
+    align-items: center;
     width: 100%;
 
     input {
-      width: 100%;
+      flex: 1;
+      padding: 10px;
+      font-size: 16px;
     }
 
     #addNameButton {
-      position: absolute;
-      top: 4rem;
-      right: 4rem;
-      margin: 0;
+      flex: 0 0 auto;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
     }
   }
 }
+
+/* Mobile responsive design */
+@media (max-width: 1023px) {
+  #mainContainer {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+  }
+
+  #controls {
+    flex: 0 0 auto;
+    padding: 2rem 2rem 0;
+    width: 100%;
+
+    #inputContainer {
+      input {
+        font-size: 18px;
+        padding: 15px;
+      }
+
+      #addNameButton {
+        font-size: 18px;
+        padding: 15px 25px;
+      }
+    }
+  }
+
+  #spinButton {
+    width: auto;
+    align-self: flex-start;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  #wheelContainer {
+    flex: 1;
+    width: 100%;
+    padding: 0 0 2rem;
+  }
+}
+
+#spinButton {
+  opacity: 0;
+  pointer-events: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
 #wheelContainer {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   flex: 2;
+  gap: 20px;
+  transition: flex 0.5s ease;
 }
-#controls {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 20px;
-}
-#nameInput {
-  padding: 10px;
-  font-size: 16px;
-  margin-right: 10px;
-}
-#addNameButton,
-#spinButton {
-  padding: 10px 20px;
-  font-size: 16px;
-  margin: 10px;
-  cursor: pointer;
-}
-#spinButton {
-  opacity: 0;
-}
+
 #nameList {
   list-style: none;
   padding: 0;
-  margin: 20px 0;
+  margin: 5px 0; // Tighter space below the name box and above Spin
   width: 100%;
 
   li {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 5px 10px;
-    background-color: #f1f1f1;
-    margin-bottom: 5px;
-    border-radius: 5px;
-  }
-
-  span {
+    padding: 10px;
+    margin: 5px 0;
+    color: #fff;
     font-weight: bold;
-    font-size: 20px;
-    cursor: pointer;
-    color: white;
-  }
+    border-radius: 5px;
+    background-color: #f1f1f1;
 
-  li:hover span {
-    color: red;
+    span {
+      font-weight: bold;
+      font-size: 20px;
+      cursor: pointer;
+      color: white;
+      margin-left: 10px;
+    }
+
+    &:hover span {
+      color: red;
+    }
   }
 }
-#nameList li {
-  padding: 10px;
-  margin: 5px 0;
-  color: #fff;
-  font-weight: bold;
-  border-radius: 5px;
+/* Backdrop behind the winner screen (shown by script.js) */
+#modalBackdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9998; // Just behind the winner screen
+  pointer-events: none;
 }
+
 /* Modal styling */
 .modal {
-  display: none;
+  display: none; // Shown by script.js when there's a winner
   position: fixed;
   top: 0;
   left: 0;
-  padding: 20px;
-  color: white;
-  z-index: 9999;
-}
-
-.modal {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  padding: 20px;
-  color: white;
-  z-index: 9999;
   width: 100vw;
   height: 100vh;
+  padding: 20px;
+  color: white;
+  z-index: 9999;
   pointer-events: none;
   opacity: 0;
-  display: flex; /* Add flex to center elements */
-  justify-content: center; /* Center the content */
-  align-items: center; /* Vertically center content */
+  justify-content: center;
+  align-items: center;
 }
 .modal h2 {
+  z-index: 1; /* Keep the name in front of the falling confetti */
   text-align: center;
   color: #fff;
   font-size: 140px;
@@ -194,6 +231,24 @@ body {
   transform: translate(-50%, -50%) rotate(-14deg);
   margin: 0;
   transform-origin: center;
+}
+
+@media (max-width: 1023px) {
+  .modal h2 {
+    font-size: 80px;
+  }
+}
+
+// Centered near the bottom of the winner screen, in front of the confetti
+#playAgainButton {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(4vh + 20px);
+  width: fit-content;
+  margin: 0 auto;
+  z-index: 1;
+  pointer-events: auto; // The modal itself ignores clicks
 }
 
 .animated {
@@ -261,6 +316,69 @@ body {
   animation: bounceWinner 3s infinite ease-in-out;
 }
 
+/* Smoke and sparkles when the controls poof away after Spin */
+.poof-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2000;
+}
+
+.poof-smoke {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(243, 227, 195, 0.55) 0%,
+    rgba(180, 155, 200, 0.25) 45%,
+    rgba(180, 155, 200, 0) 70%
+  );
+}
+
+.poof-spark {
+  position: absolute;
+  font-family: Arial, sans-serif;
+  line-height: 1;
+  text-shadow: 0 0 8px currentColor;
+}
+
+/* Witch's hand that flicks the wheel (positioned by script.js) */
+#witchHand {
+  display: none;
+  position: fixed;
+  z-index: 1500; // Above the wheel, below the winner screen
+  height: auto;
+  pointer-events: none;
+  transform-origin: 100% 100%; // Pivots from the sleeve, off the bottom right
+}
+
+/* Sparkles and glow behind the spinning wheel */
+#wheelContainer {
+  position: relative;
+}
+
+#wheelCanvas {
+  position: relative;
+  z-index: 1; // In front of the magic
+}
+
+.wheel-magic {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.wheel-glow {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  box-shadow:
+    0 0 50px 16px rgba(243, 154, 74, 0.55),
+    0 0 110px 40px rgba(180, 155, 200, 0.35);
+}
+
 /* Confetti container */
 .confetti-container {
   position: fixed;
@@ -269,7 +387,7 @@ body {
   width: 100%;
   height: 100%;
   pointer-events: none;
-  z-index: 9999;
+  z-index: 0; /* Inside the winner modal, behind the name */
 }
 
 /* Individual confetti pieces */
@@ -318,5 +436,173 @@ body {
   }
   100% {
     transform: translateY(100vh+40); /* End below the viewport */
+  }
+}
+
+/* Desktop slide animation */
+#wheelCanvas.slide {
+  animation: slideDesktop 1s ease-out forwards;
+}
+
+@keyframes slideDesktop {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Mobile slide animation */
+@media (max-width: 1023px) {
+  #wheelContainer.slide-mobile {
+    position: fixed;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    z-index: 1000;
+    // No CSS animation here: script.js glides the wheel into this spot
+  }
+
+  @keyframes bounceIn {
+    from {
+      transform: translateX(-50%) translateY(100vh);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+  }
+
+  #inputContainer.hidden {
+    display: none;
+  }
+
+  #nameList.hidden {
+    display: none;
+  }
+}
+
+#wheelCanvas {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+@media (max-width: 1023px) {
+  #wheelCanvas {
+    max-width: 90vw;
+    max-height: 90vw;
+  }
+}
+
+/* ---------- HALLOWEEN: retro horror poster theme ---------- */
+/* Turned on by class="halloween" on <body> in index.html */
+$charcoal: #3b3b42;
+$ink: #26262b;
+$cream: #f3e3c3;
+$orange: #f39a4a;
+$blood: #d8443a;
+$horror-font: 'Creepster', Georgia, cursive;
+
+body.halloween {
+  background: $charcoal url('grain.svg');
+  color: $cream;
+
+  // The colorful floating bubbles don't fit the poster look
+  .wave-container {
+    display: none;
+  }
+
+  #inputContainer {
+    input {
+      background: $cream;
+      color: $ink;
+      border: 0;
+      border-radius: 6px;
+      box-shadow: 4px 4px 0 $ink;
+      outline-color: $orange;
+    }
+
+    #addNameButton {
+      background: $orange;
+      color: $ink;
+      border: 0;
+      border-radius: 6px;
+      box-shadow: 4px 4px 0 $blood;
+      font-family: $horror-font;
+      font-size: 24px;
+      line-height: 1;
+    }
+  }
+
+  #nameList li {
+    color: $ink;
+    box-shadow: 3px 3px 0 $ink;
+
+    // !important beats the white color script.js sets on the X
+    span {
+      color: $ink !important;
+    }
+
+    &:hover span {
+      color: $blood !important;
+    }
+  }
+
+  .button-79 {
+    background: $orange;
+    color: $ink;
+    font-family: $horror-font;
+    font-size: 2rem;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    box-shadow: 5px 5px 0 $blood;
+  }
+
+  // Winner screen: grainy charcoal behind the moon-and-branches scene
+  .modal {
+    background: $charcoal url('grain.svg');
+
+    // The scene sits on its own layer, stretched 40px above the screen so
+    // the moon lands 20px higher than center with no gap at the bottom
+    &::before {
+      content: '';
+      position: absolute;
+      top: -40px;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background: url('halloween-scene.svg') center / cover no-repeat;
+      pointer-events: none;
+    }
+  }
+
+  // Keep the name centered on the raised moon
+  .modal h2 {
+    top: calc(50% - 20px);
+  }
+
+  // Cream dripping letters with a stacked red shadow
+  .modal h2 {
+    font-family: $horror-font;
+    font-weight: 400;
+    color: $cream;
+    letter-spacing: 0.03em;
+    text-shadow:
+      3px 3px 0 $blood,
+      6px 6px 0 $blood,
+      9px 9px 0 $blood,
+      0 14px 30px rgba(0, 0, 0, 0.6);
+  }
+
+  @media (max-width: 1023px) {
+    .modal h2 {
+      font-size: 110px;
+    }
   }
 }

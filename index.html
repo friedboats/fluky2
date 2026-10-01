@@ -1,13 +1,21 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Fluky 2.0</title>
+    <!-- Dripping horror lettering for the Halloween theme -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Creepster&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="styles.css" />
   </head>
-  <body>
+  <!-- Remove the "halloween" class to go back to the normal look -->
+  <body class="halloween">
     <div class="wave-container"></div>
     <div id="mainContainer">
       <div id="controls">
@@ -16,17 +24,24 @@
           <button id="addNameButton">+</button>
         </div>
         <ul id="nameList"></ul>
+        <button class="button-79" role="button" id="spinButton">Spin</button>
       </div>
       <div id="wheelContainer">
         <canvas id="wheelCanvas" width="500" height="500"></canvas>
-        <button class="button-79" role="button" id="spinButton">Spin</button>
       </div>
     </div>
+    <!-- Sits behind the winner screen so its bounce never shows the page -->
+    <div id="modalBackdrop"></div>
     <div id="modal" class="modal">
       <div class="modal-content">
         <h2 id="winnerName"></h2>
+        <button class="button-79" role="button" id="playAgainButton">
+          Play Again
+        </button>
       </div>
     </div>
+    <!-- Reaches in to flick the wheel when Spin is clicked -->
+    <img id="witchHand" src="witch-hand.svg" alt="" aria-hidden="true" />
     <script src="script.js"></script>
   </body>
 </html>
