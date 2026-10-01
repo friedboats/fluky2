@@ -204,6 +204,11 @@ body {
   pointer-events: none;
 }
 
+/* The moon scene only shows in the Halloween theme */
+.winner-scene {
+  display: none;
+}
+
 /* Modal styling */
 .modal {
   display: none; // Shown by script.js when there's a winner
@@ -570,10 +575,11 @@ body.halloween {
   .modal {
     background: $charcoal url('grain.svg');
 
-    // The scene (added by script.js) sits on its own layer, stretched 40px
+    // The scene (inline in index.html) sits on its own layer, stretched 40px
     // above the screen so the moon lands 20px higher than center with no
     // gap at the bottom
     .winner-scene {
+      display: block;
       position: absolute;
       top: -40px;
       right: 0;

@@ -1168,19 +1168,6 @@
     }
   }
 
-  // HALLOWEEN: put the winner scene right into the page (not as a background
-  // image) so the moon can be recolored for each winner
-  if (document.body.classList.contains('halloween')) {
-    fetch('halloween-scene.svg')
-      .then((response) => response.text())
-      .then((svgText) => {
-        const scene = document.createElement('div');
-        scene.classList.add('winner-scene');
-        scene.innerHTML = svgText;
-        document.getElementById('modal').prepend(scene);
-      });
-  }
-
   loadNamesFromUrlParams();
   // Names from the link appear with magic, along with the Spin button
   if (names.length > 0) {

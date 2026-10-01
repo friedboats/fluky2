@@ -193,6 +193,11 @@ body {
   pointer-events: none;
 }
 
+/* The moon scene only shows in the Halloween theme */
+.winner-scene {
+  display: none;
+}
+
 /* Modal styling */
 .modal {
   display: none;
@@ -521,6 +526,7 @@ body.halloween .modal {
   background: #3b3b42 url("grain.svg");
 }
 body.halloween .modal .winner-scene {
+  display: block;
   position: absolute;
   top: -40px;
   right: 0;
