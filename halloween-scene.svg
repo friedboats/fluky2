@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
   <!-- Retro horror poster: flat orange moon, bare branches, bats (grain and charcoal come from the CSS behind it) -->
 
-  <!-- Moon -->
-  <circle cx="800" cy="450" r="290" fill="#f39a4a"/>
+  <!-- Moon (script.js recolors it to the winning wedge's color) -->
+  <circle id="moon" cx="800" cy="450" r="290" fill="#f39a4a"/>
 
   <!-- Bats over the moon -->
   <g fill="#26262b">

@@ -338,9 +338,10 @@ body {
   position: relative;
 }
 
-#wheelCanvas {
+#wheelWrap {
   position: relative;
   z-index: 1;
+  max-width: 100%;
 }
 
 .wheel-magic {
@@ -519,15 +520,18 @@ body.halloween .button-79 {
 body.halloween .modal {
   background: #3b3b42 url("grain.svg");
 }
-body.halloween .modal::before {
-  content: "";
+body.halloween .modal .winner-scene {
   position: absolute;
   top: -40px;
   right: 0;
   bottom: 0;
   left: 0;
-  background: url("halloween-scene.svg") center/cover no-repeat;
   pointer-events: none;
+}
+body.halloween .modal .winner-scene svg {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 body.halloween .modal h2 {
   top: calc(50% - 20px);

@@ -7,6 +7,7 @@
   const nameList = document.getElementById('nameList');
   const controls = document.getElementById('controls');
   const wheelContainer = document.getElementById('wheelContainer');
+  const wheelWrap = document.getElementById('wheelWrap'); // Wheel plus its pointer hand
 
   // Increase the canvas size to accommodate the larger wheel and ensure the arrow stays in view
   canvas.width = 600; // Adjusted width for larger wheel
@@ -220,16 +221,69 @@
       ctx.restore();
     });
 
-    // Draw the arrow (cream so it shows on the dark Halloween background)
-    ctx.fillStyle = document.body.classList.contains('halloween')
-      ? '#F3E3C3'
-      : '#000';
+    // HALLOWEEN: the pointer is a bone shard, otherwise the plain black triangle
+    if (document.body.classList.contains('halloween')) {
+      drawBonePointer();
+      return;
+    }
+
+    // Draw the arrow
+    ctx.fillStyle = '#000';
+    // Slight drop shadow so the arrow sits on top of the wheel
+    ctx.save();
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.45)';
+    ctx.shadowBlur = 6;
+    ctx.shadowOffsetY = 3;
     ctx.beginPath();
     ctx.moveTo(centerX, centerY - radius + 15);
     ctx.lineTo(centerX - 10, centerY - radius - 10);
     ctx.lineTo(centerX + 10, centerY - radius - 10);
     ctx.closePath();
     ctx.fill();
+    ctx.restore();
+  }
+
+  // A bone shard for the pointer: the same triangle as the plain arrow, but
+  // cream with a broken, jagged top edge and a crack running down it
+  function drawBonePointer() {
+    const tipY = centerY - radius + 15;
+    const topY = centerY - radius - 14;
+
+    const shard = new Path2D();
+    shard.moveTo(centerX, tipY);
+    shard.quadraticCurveTo(centerX - 6, topY + 16, centerX - 13, topY + 3);
+    // Jagged broken top edge
+    shard.lineTo(centerX - 8, topY);
+    shard.lineTo(centerX - 4, topY + 4);
+    shard.lineTo(centerX + 1, topY - 1);
+    shard.lineTo(centerX + 6, topY + 3);
+    shard.lineTo(centerX + 13, topY + 1);
+    shard.quadraticCurveTo(centerX + 6, topY + 16, centerX, tipY);
+    shard.closePath();
+
+    ctx.save();
+    // Dark outline with a slight drop shadow, then the cream bone on top
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.45)';
+    ctx.shadowBlur = 6;
+    ctx.shadowOffsetY = 3;
+    ctx.lineWidth = 4;
+    ctx.lineJoin = 'round';
+    ctx.strokeStyle = '#1c1c1f';
+    ctx.stroke(shard);
+    ctx.shadowColor = 'transparent';
+    ctx.fillStyle = '#F3E3C3';
+    ctx.fill(shard);
+
+    // Hairline crack from the broken edge
+    ctx.beginPath();
+    ctx.moveTo(centerX - 4, topY + 4);
+    ctx.lineTo(centerX - 1, topY + 11);
+    ctx.lineTo(centerX - 3, topY + 17);
+    ctx.lineWidth = 1.5;
+    ctx.lineCap = 'round';
+    ctx.strokeStyle = 'rgba(28, 28, 31, 0.6)';
+    ctx.stroke();
+    ctx.restore();
   }
 
   // --- Spin transition ---
@@ -361,15 +415,16 @@
 
   // Change the layout, then make the wheel glide from where it was to where it lands
   function moveWheelSmoothly(changeLayout) {
-    const before = canvas.getBoundingClientRect();
+    const before = wheelWrap.getBoundingClientRect();
     changeLayout();
-    const after = canvas.getBoundingClientRect();
+    const after = wheelWrap.getBoundingClientRect();
 
     const dx = before.left + before.width / 2 - (after.left + after.width / 2);
     const dy = before.top + before.height / 2 - (after.top + after.height / 2);
     const scale = before.width / after.width;
 
-    return canvas.animate(
+    // Move the wrapper so the pointer hand travels with the wheel
+    return wheelWrap.animate(
       [
         { transform: `translate(${dx}px, ${dy}px) scale(${scale})` },
         { transform: 'none' },
@@ -497,7 +552,7 @@
       magicGlow = document.createElement('div');
       magicGlow.classList.add('wheel-glow');
       magicLayer.appendChild(magicGlow);
-      wheelContainer.insertBefore(magicLayer, canvas);
+      wheelContainer.insertBefore(magicLayer, wheelWrap);
     }
 
     // Measure where the wheel's center is inside the container
@@ -644,7 +699,10 @@
       modal.style.display = 'block'; // Show the modal
       // NORMAL
       // modal.style.backgroundColor = winnerLi.style.backgroundColor;
-      // HALLOWEEN: background comes from body.halloween in styles.scss
+      // HALLOWEEN: background comes from body.halloween in styles.scss,
+      // and the moon takes the winning wedge's color
+      const moon = modal.querySelector('#moon');
+      if (moon) moon.style.fill = winnerLi.style.backgroundColor;
       winnerName.innerHTML = winnerNameText;
       showModalBackdrop(modal);
 
@@ -1108,6 +1166,19 @@
 
       container.appendChild(wave);
     }
+  }
+
+  // HALLOWEEN: put the winner scene right into the page (not as a background
+  // image) so the moon can be recolored for each winner
+  if (document.body.classList.contains('halloween')) {
+    fetch('halloween-scene.svg')
+      .then((response) => response.text())
+      .then((svgText) => {
+        const scene = document.createElement('div');
+        scene.classList.add('winner-scene');
+        scene.innerHTML = svgText;
+        document.getElementById('modal').prepend(scene);
+      });
   }
 
   loadNamesFromUrlParams();
