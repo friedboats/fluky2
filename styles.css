@@ -325,7 +325,7 @@ body {
   position: absolute;
   font-family: Arial, sans-serif;
   line-height: 1;
-  text-shadow: 0 0 8px currentColor;
+  text-shadow: none;
 }
 
 /* Witch's hand that flicks the wheel (positioned by script.js) */
@@ -478,54 +478,54 @@ body {
 }
 /* ---------- HALLOWEEN: retro horror poster theme ---------- */
 /* Turned on by class="halloween" on <body> in index.html */
-body.halloween {
-  background: #3b3b42 url("grain.svg");
-  color: #f3e3c3;
+body.true-blue {
+  background: #071d43 url("grain.svg");
+  color: #B9DFFF;
 }
-body.halloween .wave-container {
+body.true-blue .wave-container {
   display: none;
 }
-body.halloween #inputContainer input {
-  background: #f3e3c3;
-  color: #26262b;
+body.true-blue #inputContainer input {
+  background: #B9DFFF;
+  color: #092b56;
   border: 0;
   border-radius: 6px;
-  box-shadow: 4px 4px 0 #26262b;
-  outline-color: #f39a4a;
+  box-shadow: 4px 4px 0 #092b56;
+  outline-color: #2475DD;
 }
-body.halloween #inputContainer #addNameButton {
-  background: #f39a4a;
-  color: #26262b;
+body.true-blue #inputContainer #addNameButton {
+  background: #2475DD;
+  color: #092b56;
   border: 0;
   border-radius: 6px;
-  box-shadow: 4px 4px 0 #d8443a;
-  font-family: "Creepster", Georgia, cursive;
+  box-shadow: 4px 4px 0 #73B8EF;
+  font-family: "Bree Serif", Georgia, cursive;
   font-size: 24px;
   line-height: 1;
 }
-body.halloween #nameList li {
-  color: #26262b;
-  box-shadow: 3px 3px 0 #26262b;
+body.true-blue #nameList li {
+  color: #092b56;
+  box-shadow: 3px 3px 0 #092b56;
 }
-body.halloween #nameList li span {
-  color: #26262b !important;
+body.true-blue #nameList li span {
+  color: #092b56 !important;
 }
-body.halloween #nameList li:hover span {
-  color: #d8443a !important;
+body.true-blue #nameList li:hover span {
+  color: #73B8EF !important;
 }
-body.halloween .button-79 {
-  background: #f39a4a;
-  color: #26262b;
-  font-family: "Creepster", Georgia, cursive;
+body.true-blue .button-79 {
+  background: #2475DD;
+  color: #092b56;
+  font-family: "Bree Serif", Georgia, cursive;
   font-size: 2rem;
   font-weight: 400;
   letter-spacing: 0.04em;
-  box-shadow: 5px 5px 0 #d8443a;
+  box-shadow: 5px 5px 0 #73B8EF;
 }
-body.halloween .modal {
-  background: #3b3b42 url("grain.svg");
+body.true-blue .modal {
+  background: #071d43 url("grain.svg");
 }
-body.halloween .modal .winner-scene {
+body.true-blue .modal .winner-scene {
   display: block;
   position: absolute;
   top: -40px;
@@ -534,24 +534,101 @@ body.halloween .modal .winner-scene {
   left: 0;
   pointer-events: none;
 }
-body.halloween .modal .winner-scene svg {
+body.true-blue .modal .winner-scene svg {
   display: block;
   width: 100%;
   height: 100%;
 }
-body.halloween .modal h2 {
+body.true-blue .modal h2 {
   top: calc(50% - 20px);
 }
-body.halloween .modal h2 {
-  font-family: "Creepster", Georgia, cursive;
+body.true-blue .modal h2 {
+  font-family: "Bree Serif", Georgia, cursive;
   font-weight: 400;
-  color: #f3e3c3;
+  color: #B9DFFF;
   letter-spacing: 0.03em;
-  text-shadow: 3px 3px 0 #d8443a, 6px 6px 0 #d8443a, 9px 9px 0 #d8443a, 0 14px 30px rgba(0, 0, 0, 0.6);
+  text-shadow: none;
 }
 @media (max-width: 1023px) {
-  body.halloween .modal h2 {
+  body.true-blue .modal h2 {
     font-size: 110px;
+  }
+}
+
+/* True Blue: rolling waves and crisp blue-and-white type. */
+body.true-blue {
+  background: #071d43;
+  background-image: radial-gradient(ellipse at 75% 25%, #164c88 0%, transparent 65%);
+  min-height: 100vh;
+}
+body.true-blue .wave-container {
+  display: block;
+  position: fixed;
+  z-index: -1;
+  pointer-events: none;
+}
+body.true-blue .wave {
+  display: none;
+}
+body.true-blue .wave-container::before, body.true-blue .wave-container::after {
+  content: "";
+  position: absolute;
+  width: 200%;
+  height: 65%;
+  left: -50%;
+  bottom: -42%;
+  border-radius: 44%;
+  background: #2475dd;
+  transform: rotate(-8deg);
+  animation: blue-swell 14s ease-in-out infinite alternate;
+}
+body.true-blue .wave-container::after {
+  bottom: -48%;
+  background: #71c2f5;
+  animation-delay: -7s;
+}
+body.true-blue #inputContainer {
+  min-width: 0;
+}
+body.true-blue #inputContainer input {
+  min-width: 0;
+}
+body.true-blue #inputContainer #addNameButton, body.true-blue .button-79 {
+  color: #f3faff;
+  background: #2475dd;
+  box-shadow: 4px 4px 0 #103d83;
+}
+body.true-blue #nameList li {
+  color: #092b56;
+}
+body.true-blue .modal {
+  background: #071d43;
+}
+body.true-blue .modal h2 {
+  font-size: clamp(46px, 10vw, 140px);
+  max-width: 90vw;
+  overflow-wrap: anywhere;
+  color: #f3faff;
+  text-shadow: none;
+}
+body.true-blue .poof-smoke {
+  background: radial-gradient(circle, rgba(185, 223, 255, 0.5333333333), rgba(36, 117, 221, 0.2) 45%, transparent 70%);
+}
+body.true-blue .wheel-glow {
+  box-shadow: 0 0 50px 16px rgba(36, 117, 221, 0.5333333333), 0 0 110px 40px rgba(113, 194, 245, 0.3333333333);
+}
+body.true-blue #wheelCanvas {
+  filter: drop-shadow(0 14px 28px rgba(2, 15, 41, 0.4));
+}
+
+@keyframes blue-swell {
+  to {
+    transform: translateX(8%) rotate(8deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  body.true-blue .wave-container::before, body.true-blue .wave-container::after, #winnerName {
+    animation: none;
   }
 }
 

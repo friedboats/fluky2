@@ -51,18 +51,18 @@
 
   // HALLOWEEN: retro horror poster colors
   const predefinedColors = [
-    '#F39A4A', // orange
-    '#F3E3C3', // cream
-    '#D8443A', // blood red
-    '#E3B04B', // mustard
-    '#8FA58A', // sage
-    '#F2B88B', // peach
-    '#B49BC8', // dusty lavender
-    '#7FA8A3', // faded teal
-    '#C96F3B', // rust
-    '#D98A8A', // rose
-    '#A8B06A', // olive
-    '#D9B98C', // sand
+    '#2475DD', // orange
+    '#B9DFFF', // cream
+    '#73B8EF', // blood red
+    '#5097DB', // mustard
+    '#91C9EF', // sage
+    '#DCEFFF', // peach
+    '#80A8E5', // dusty lavender
+    '#A5D8F5', // faded teal
+    '#438DD0', // rust
+    '#C8DCFA', // rose
+    '#67BFD5', // olive
+    '#9ABDEB', // sand
   ];
 
   let assignedColors = [];
@@ -77,7 +77,7 @@
       return randomColor;
     } else {
       // If we run out of predefined colors, generate a random color
-      const hue = Math.floor(Math.random() * 360);
+      const hue = 205 + Math.floor(Math.random() * 25);
       const saturation = Math.floor(Math.random() * 20) + 70;
       const lightness = Math.floor(Math.random() * 20) + 40;
       return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
@@ -171,7 +171,7 @@
       ctx.font = '100px Georgia';
       ctx.fillStyle = 'white';
       ctx.fillText('Euchre', centerX - 155, centerY - 20);
-      ctx.fillText('Night!!!', centerX - 155, centerY + 95);
+      ctx.fillText('Euchre Night', centerX - 155, centerY + 95);
       return;
     } */
 
@@ -182,20 +182,18 @@
       // 🌕 Flat orange moon, the same size as the wheel
       ctx.beginPath();
       ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
-      ctx.fillStyle = '#F39A4A'; // poster orange
+      ctx.fillStyle = '#2475DD'; // poster orange
       ctx.fill();
 
-      // Text overlay: cream dripping letters with a stacked red shadow
-      ctx.font = '96px Creepster, Georgia';
+      // Clean title lettering
+      ctx.font = '64px "Bree Serif", Georgia';
       ctx.textAlign = 'center';
-      ctx.fillStyle = '#D8443A';
-      for (let offset = 6; offset > 0; offset -= 2) {
-        ctx.fillText('Spoochre', centerX + offset, centerY - 15 + offset);
-        ctx.fillText('Night!!!', centerX + offset, centerY + 90 + offset);
-      }
-      ctx.fillStyle = '#F3E3C3';
-      ctx.fillText('Spoochre', centerX, centerY - 15);
-      ctx.fillText('Night!!!', centerX, centerY + 90);
+      ctx.fillStyle = '#F3FAFF';
+      ctx.save();
+      ctx.textBaseline = 'middle';
+      ctx.fillText('True Blue', centerX, centerY - 35);
+      ctx.fillText('Euchre Night', centerX, centerY + 35);
+      ctx.restore();
 
       return;
     }
@@ -228,7 +226,7 @@
     }
 
     // Draw the arrow
-    ctx.fillStyle = '#000';
+    ctx.fillStyle = '#F3FAFF';
     // Slight drop shadow so the arrow sits on top of the wheel
     ctx.save();
     ctx.shadowColor = 'rgba(0, 0, 0, 0.45)';
@@ -271,7 +269,7 @@
     ctx.strokeStyle = '#1c1c1f';
     ctx.stroke(shard);
     ctx.shadowColor = 'transparent';
-    ctx.fillStyle = '#F3E3C3';
+    ctx.fillStyle = '#B9DFFF';
     ctx.fill(shard);
 
     // Hairline crack from the broken edge
@@ -380,7 +378,7 @@
     }
 
     // Twinkling sparkles flying outward
-    const sparkColors = ['#F3E3C3', '#F39A4A', '#B49BC8', '#E3B04B'];
+    const sparkColors = ['#B9DFFF', '#2475DD', '#80A8E5', '#5097DB'];
     const sparkCount = Math.max(8, Math.round(rect.width / 30));
     for (let i = 0; i < sparkCount; i++) {
       const spark = document.createElement('span');
@@ -463,79 +461,16 @@
     }
   });
 
-  // --- Witch's hand pushes the wheel ---
-  const witchHand = document.getElementById('witchHand');
-  const HAND_ENTER_MS = 800; // Reaching in from the bottom-right corner
-  const HAND_PAUSE_MS = 350; // Hovering on the rim before the push
-  const HAND_PUSH_MS = 260; // Pushing down the rim
-  const HAND_EXIT_MS = 650; // Pulling back out while the wheel spins
-
-  // The wheel's radius in screen pixels
   function wheelRadiusOnScreen() {
     return canvas.getBoundingClientRect().width * (radius / canvas.width);
   }
-
-  const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
-  // Resolves at the moment the claw pushes the wheel, so the spin starts then
   function witchSpinsWheel() {
     if (prefersReducedMotion()) return Promise.resolve();
-
-    const wheel = canvas.getBoundingClientRect();
-    const wheelRadius = wheelRadiusOnScreen();
-    const handWidth = Math.max(300, wheel.width * 0.9);
-    const handHeight = handWidth; // witch-hand.svg is 660x660
-
-    // Put the claw tip (at 3,311 in the drawing) just inside the right rim,
-    // a little above center, so pushing down spins the wheel clockwise
-    const clawX = (handWidth * 3) / 660;
-    const clawY = (handHeight * 311) / 660;
-    const touchX = wheel.left + wheel.width / 2 + wheelRadius * 0.92;
-    const touchY = wheel.top + wheel.height / 2 - wheelRadius * 0.35;
-    const handLeft = touchX - clawX;
-    const handTop = touchY - clawY;
-
-    witchHand.style.width = `${handWidth}px`;
-    witchHand.style.left = `${handLeft}px`;
-    witchHand.style.top = `${handTop}px`;
-    witchHand.style.display = 'block';
-
-    // Fully off the bottom-right corner of the screen
-    const away = `translate(${window.innerWidth - handLeft + 40}px, ${
-      window.innerHeight - handTop + 40
-    }px)`;
-    const pushed = `translateY(${wheelRadius * 0.55}px) rotate(-8deg)`;
-
-    const reachIn = witchHand.animate([{ transform: away }, { transform: 'none' }], {
-      duration: HAND_ENTER_MS,
-      easing: 'cubic-bezier(0.2, 0.8, 0.3, 1)', // Glides in and settles
-      fill: 'forwards',
-    });
-
-    return reachIn.finished
-      .then(() => wait(HAND_PAUSE_MS))
-      .then(
-        () =>
-          witchHand.animate([{ transform: 'none' }, { transform: pushed }], {
-            duration: HAND_PUSH_MS,
-            easing: 'cubic-bezier(0.5, 0, 0.9, 0.5)', // Speeds up into the push
-            fill: 'forwards',
-          }).finished,
-      )
-      .then(() => {
-        const pullBack = witchHand.animate(
-          [{ transform: pushed }, { transform: away }],
-          {
-            duration: HAND_EXIT_MS,
-            easing: 'cubic-bezier(0.5, 0, 0.8, 0.4)',
-            fill: 'forwards',
-          },
-        );
-        pullBack.finished.then(() => {
-          witchHand.style.display = 'none';
-          witchHand.getAnimations().forEach((a) => a.cancel());
-        });
-      });
+    return wheelWrap.animate([
+      { transform: 'translateY(0) rotate(0deg)' },
+      { transform: 'translateY(-12px) rotate(-4deg)', offset: .5 },
+      { transform: 'translateY(0) rotate(0deg)' }
+    ], { duration: 650, easing: 'ease-in-out' }).finished;
   }
 
   // --- Magic streaming off behind the wheel while it spins ---
@@ -581,7 +516,7 @@
       return;
     }
 
-    const sparkColors = ['#F3E3C3', '#F39A4A', '#B49BC8', '#E3B04B'];
+    const sparkColors = ['#B9DFFF', '#2475DD', '#80A8E5', '#5097DB'];
     const wheelRadius = wheelRadiusOnScreen();
     const angle = Math.random() * 2 * Math.PI;
     const spark = document.createElement('span');
@@ -703,7 +638,7 @@
       // and the moon takes the winning wedge's color
       const moon = modal.querySelector('#moon');
       if (moon) moon.style.fill = winnerLi.style.backgroundColor;
-      winnerName.innerHTML = winnerNameText;
+      winnerName.textContent = names[segmentIndex];
       showModalBackdrop(modal);
 
       // Start the confetti once the screen has finished bouncing in
@@ -1048,28 +983,24 @@
 
     // HALLOWEEN: retro horror poster colors
     const colors = [
-      '#F39A4A', // orange
-      '#F3E3C3', // cream
-      '#D8443A', // blood red
-      '#E3B04B', // mustard
-      '#8FA58A', // sage
-      '#F2B88B', // peach
-      '#B49BC8', // dusty lavender
-      '#7FA8A3', // faded teal
-      '#C96F3B', // rust
-      '#D98A8A', // rose
-      '#A8B06A', // olive
-      '#D9B98C', // sand
+      '#2475DD', // orange
+      '#B9DFFF', // cream
+      '#73B8EF', // blood red
+      '#5097DB', // mustard
+      '#91C9EF', // sage
+      '#DCEFFF', // peach
+      '#80A8E5', // dusty lavender
+      '#A5D8F5', // faded teal
+      '#438DD0', // rust
+      '#C8DCFA', // rose
+      '#67BFD5', // olive
+      '#9ABDEB', // sand
     ];
 
     for (let i = 0; i < numConfetti; i++) {
       // Randomly pick a spider, pumpkin, or witch hat
       const color = colors[Math.floor(Math.random() * colors.length)];
-      const shapes = [
-        () => createSpiderSVG(color),
-        () => createPumpkinSVG(color),
-        () => createWitchHatSVG(color),
-      ];
+      const shapes = [() => createCardSuitSVG(color)];
       // A little card suit confetti mixed in (about 1 in 10 pieces)
       const confettiPiece =
         Math.random() < 0.1
@@ -1180,5 +1111,5 @@
   drawWheel();
 
   // Redraw once the Creepster font is ready so the pumpkin text uses it
-  document.fonts.load('96px Creepster').then(drawWheel);
+  document.fonts.load('64px "Bree Serif"').then(drawWheel);
 })();

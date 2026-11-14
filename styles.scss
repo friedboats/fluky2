@@ -344,7 +344,7 @@ body {
   position: absolute;
   font-family: Arial, sans-serif;
   line-height: 1;
-  text-shadow: 0 0 8px currentColor;
+  text-shadow: none;
 }
 
 /* Witch's hand that flicks the wheel (positioned by script.js) */
@@ -509,14 +509,14 @@ body {
 
 /* ---------- HALLOWEEN: retro horror poster theme ---------- */
 /* Turned on by class="halloween" on <body> in index.html */
-$charcoal: #3b3b42;
-$ink: #26262b;
-$cream: #f3e3c3;
-$orange: #f39a4a;
-$blood: #d8443a;
-$horror-font: 'Creepster', Georgia, cursive;
+$charcoal: #071d43;
+$ink: #092b56;
+$cream: #B9DFFF;
+$orange: #2475DD;
+$blood: #73B8EF;
+$horror-font: 'Bree Serif', Georgia, cursive;
 
-body.halloween {
+body.true-blue {
   background: $charcoal url('grain.svg');
   color: $cream;
 
@@ -606,11 +606,7 @@ body.halloween {
     font-weight: 400;
     color: $cream;
     letter-spacing: 0.03em;
-    text-shadow:
-      3px 3px 0 $blood,
-      6px 6px 0 $blood,
-      9px 9px 0 $blood,
-      0 14px 30px rgba(0, 0, 0, 0.6);
+    text-shadow: none;
   }
 
   @media (max-width: 1023px) {
@@ -618,4 +614,31 @@ body.halloween {
       font-size: 110px;
     }
   }
+}
+
+/* True Blue: rolling waves and crisp blue-and-white type. */
+body.true-blue {
+  background: #071d43;
+  background-image: radial-gradient(ellipse at 75% 25%, #164c88 0%, transparent 65%);
+  min-height: 100vh;
+  .wave-container { display: block; position: fixed; z-index: -1; pointer-events: none; }
+  .wave { display: none; }
+  .wave-container::before, .wave-container::after {
+    content: ''; position: absolute; width: 200%; height: 65%; left: -50%;
+    bottom: -42%; border-radius: 44%; background: #2475dd;
+    transform: rotate(-8deg); animation: blue-swell 14s ease-in-out infinite alternate;
+  }
+  .wave-container::after { bottom: -48%; background: #71c2f5; animation-delay: -7s; }
+  #inputContainer { min-width: 0; input { min-width: 0; } }
+  #inputContainer #addNameButton, .button-79 { color: #f3faff; background: #2475dd; box-shadow: 4px 4px 0 #103d83; }
+  #nameList li { color: #092b56; }
+  .modal { background: #071d43; }
+  .modal h2 { font-size: clamp(46px, 10vw, 140px); max-width: 90vw; overflow-wrap: anywhere; color: #f3faff; text-shadow: none; }
+  .poof-smoke { background: radial-gradient(circle, #b9dfff88, #2475dd33 45%, transparent 70%); }
+  .wheel-glow { box-shadow: 0 0 50px 16px #2475dd88, 0 0 110px 40px #71c2f555; }
+  #wheelCanvas { filter: drop-shadow(0 14px 28px #020f2966); }
+}
+@keyframes blue-swell { to { transform: translateX(8%) rotate(8deg); } }
+@media (prefers-reduced-motion: reduce) {
+  body.true-blue .wave-container::before, body.true-blue .wave-container::after, #winnerName { animation: none; }
 }
